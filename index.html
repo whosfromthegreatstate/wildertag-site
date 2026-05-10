@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wildertag — Find Real Wildlife</title>
+  <meta name="description" content="Point your phone at real plants, animals, bugs, fungi. AI identifies the species. Play a slingshot minigame to tag them into your field journal. Track local biodiversity and help real climate science.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wildertag.com">
+  <meta property="og:title" content="Wildertag — Find Real Wildlife">
+  <meta property="og:description" content="AI species identification meets slingshot capture game. Build your field journal, track local biodiversity, and help real climate science.">
+  <meta property="og:site_name" content="Wildertag">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Wildertag — Find Real Wildlife">
+  <meta name="twitter:description" content="AI species identification meets slingshot capture game. Build your field journal, track local biodiversity, and help real climate science.">
+
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: #0a0a0a;
+      color: #a1a1aa;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Typography ── */
+    h1, h2, h3, h4 { color: #fafafa; font-weight: 700; letter-spacing: -0.02em; }
+
+    a { color: #22c55e; text-decoration: none; transition: opacity 0.2s; }
+    a:hover { opacity: 0.8; }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: 6rem 0;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.15); }
+      50%      { box-shadow: 0 0 40px rgba(34, 197, 94, 0.3); }
+    }
+
+    @keyframes grain-drift {
+      0%   { background-position: 0 0; }
+      100% { background-position: 200px 200px; }
+    }
+
+    .fade-up {
+      animation: fadeUp 0.8s ease-out both;
+    }
+
+    .fade-up-d1 { animation-delay: 0.1s; }
+    .fade-up-d2 { animation-delay: 0.2s; }
+    .fade-up-d3 { animation-delay: 0.3s; }
+    .fade-up-d4 { animation-delay: 0.4s; }
+    .fade-up-d5 { animation-delay: 0.5s; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 0;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fafafa;
+      letter-spacing: -0.03em;
+    }
+
+    .nav-logo span { color: #22c55e; }
+
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+
+    .nav-links a {
+      color: #a1a1aa;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: #fafafa; opacity: 1; }
+
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #22c55e;
+      color: #0a0a0a !important;
+      padding: 0.5rem 1.25rem;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .nav-cta:hover { background: #16a34a; opacity: 1; transform: translateY(-1px); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 10rem 0 6rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -40%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(34, 197, 94, 0.1);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      color: #22c55e;
+      padding: 0.4rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 2rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 .accent { color: #22c55e; }
+
+    .hero-sub {
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      color: #71717a;
+      max-width: 620px;
+      margin: 0 auto 3rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 4rem;
+    }
+
+    /* ── Store Badges ── */
+    .store-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #fafafa;
+      color: #0a0a0a;
+      padding: 0.85rem 1.75rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
+      text-decoration: none;
+    }
+
+    .store-badge:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      opacity: 1;
+    }
+
+    .store-badge svg { flex-shrink: 0; }
+
+    .store-badge-text { text-align: left; line-height: 1.2; }
+    .store-badge-text small { font-size: 0.65rem; font-weight: 400; color: #52525b; display: block; }
+
+    /* ── Mockup area ── */
+    .hero-visual {
+      position: relative;
+      max-width: 380px;
+      margin: 0 auto;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .phone-frame {
+      width: 260px;
+      height: 520px;
+      margin: 0 auto;
+      border-radius: 36px;
+      border: 3px solid rgba(255,255,255,0.1);
+      background: linear-gradient(160deg, #111 0%, #1a1a2e 50%, #0f1f15 100%);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+      animation: pulse-glow 4s ease-in-out infinite;
+    }
+
+    .phone-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 28px;
+      background: #0a0a0a;
+      border-radius: 0 0 16px 16px;
+    }
+
+    .phone-screen {
+      padding: 44px 20px 20px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .phone-hugo {
+      font-size: 4rem;
+      margin-bottom: 0.75rem;
+      image-rendering: pixelated;
+      line-height: 1;
+    }
+
+    .phone-id-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #22c55e;
+      margin-bottom: 0.25rem;
+    }
+
+    .phone-species {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fafafa;
+      margin-bottom: 0.5rem;
+    }
+
+    .phone-conf {
+      display: inline-block;
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .phone-tag-btn {
+      background: #22c55e;
+      color: #0a0a0a;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 9999px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Section Headers ── */
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #22c55e;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      color: #71717a;
+      font-size: 1.1rem;
+      max-width: 560px;
+      line-height: 1.7;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-header .section-desc {
+      margin: 0 auto;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+      margin: 0;
+    }
+
+    /* ── How It Works ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .step {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      transition: border-color 0.3s, background 0.3s;
+      position: relative;
+    }
+
+    .step:hover {
+      border-color: rgba(34, 197, 94, 0.3);
+      background: rgba(34, 197, 94, 0.03);
+    }
+
+    .step-number {
+      position: absolute;
+      top: 1.25rem;
+      left: 1.25rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: rgba(34, 197, 94, 0.4);
+      letter-spacing: 0.05em;
+    }
+
+    .step-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+
+    .step h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .step p {
+      font-size: 0.9rem;
+      color: #71717a;
+      line-height: 1.6;
+    }
+
+    /* ── Connector arrows between steps ── */
+    .step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: -1.15rem;
+      width: 0.3rem;
+      height: 0.3rem;
+      border-right: 2px solid rgba(34, 197, 94, 0.3);
+      border-bottom: 2px solid rgba(34, 197, 94, 0.3);
+      transform: translateY(-50%) rotate(-45deg);
+    }
+
+    /* ── Features Grid ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    .feature-card {
+      padding: 2rem;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      transition: border-color 0.3s, background 0.3s, transform 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(34, 197, 94, 0.25);
+      background: rgba(34, 197, 94, 0.03);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .feature-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-card p {
+      font-size: 0.875rem;
+      color: #71717a;
+      line-height: 1.6;
+    }
+
+    /* ── Pledge Section ── */
+    .pledge {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pledge-card {
+      position: relative;
+      border-radius: 24px;
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      background: linear-gradient(160deg, rgba(34, 197, 94, 0.06) 0%, rgba(10, 10, 10, 0.95) 60%);
+      padding: 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .pledge-card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .pledge-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .pledge h2 {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+
+    .pledge-text p {
+      color: #a1a1aa;
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .pledge-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .pledge-stat {
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .pledge-stat-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #22c55e;
+      margin-bottom: 0.25rem;
+    }
+
+    .pledge-stat-label {
+      font-size: 0.85rem;
+      color: #71717a;
+    }
+
+    /* ── Classroom ── */
+    .classroom {
+      text-align: center;
+    }
+
+    .classroom-card {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3.5rem;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .classroom-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .classroom h2 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .classroom p {
+      color: #71717a;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 auto 2rem;
+    }
+
+    .classroom-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      padding: 0.75rem 1.75rem;
+      border-radius: 9999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: background 0.2s, border-color 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .classroom-btn:hover {
+      background: rgba(34, 197, 94, 0.1);
+      border-color: #22c55e;
+      opacity: 1;
+    }
+
+    /* ── Email Signup ── */
+    .signup {
+      text-align: center;
+      padding: 6rem 0;
+      position: relative;
+    }
+
+    .signup::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .signup h2 {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      margin-bottom: 1rem;
+    }
+
+    .signup p {
+      color: #71717a;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .signup-form {
+      display: flex;
+      gap: 0.75rem;
+      max-width: 440px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .signup-form input {
+      flex: 1;
+      padding: 0.85rem 1.25rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      color: #fafafa;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+
+    .signup-form input::placeholder { color: #52525b; }
+    .signup-form input:focus { border-color: rgba(34, 197, 94, 0.5); }
+
+    .signup-form button {
+      padding: 0.85rem 1.75rem;
+      border-radius: 12px;
+      background: #22c55e;
+      color: #0a0a0a;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .signup-form button:hover {
+      background: #16a34a;
+      transform: translateY(-1px);
+    }
+
+    .signup-note {
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      color: #52525b;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 3rem 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .footer-logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fafafa;
+      letter-spacing: -0.03em;
+    }
+
+    .footer-logo span { color: #22c55e; }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: #52525b;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      color: #71717a;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: #fafafa; opacity: 1; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .pledge-card {
+        grid-template-columns: 1fr;
+        padding: 2.5rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      section { padding: 4rem 0; }
+
+      nav .nav-links { display: none; }
+
+      .hero { padding: 8rem 0 4rem; }
+
+      .steps {
+        grid-template-columns: 1fr;
+        max-width: 360px;
+        margin: 0 auto;
+      }
+
+      .step:not(:last-child)::after { display: none; }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .pledge-card { padding: 2rem; }
+
+      .classroom-card { padding: 2rem; }
+
+      .signup-form {
+        flex-direction: column;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <div class="container">
+      <a href="/" class="nav-logo">wilder<span>tag</span></a>
+      <div class="nav-links">
+        <a href="#how-it-works">How It Works</a>
+        <a href="#features">Features</a>
+        <a href="#pledge">Pledge</a>
+        <a href="#" class="nav-cta">Download</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge fade-up">Now available on iOS &amp; Android</div>
+      <h1 class="fade-up fade-up-d1">
+        Find Real<br><span class="accent">Wildlife.</span>
+      </h1>
+      <p class="hero-sub fade-up fade-up-d2">
+        Point your phone at real plants, animals, bugs, and fungi. AI identifies the species. Play a slingshot minigame to tag them into your field journal. Track local biodiversity and help real climate science.
+      </p>
+
+      <div class="hero-actions fade-up fade-up-d3">
+        <!-- App Store -->
+        <a href="#" class="store-badge">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.47C4.25 16.94 2.94 12.38 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z" fill="#0a0a0a"/>
+          </svg>
+          <div class="store-badge-text">
+            <small>Download on the</small>
+            App Store
+          </div>
+        </a>
+
+        <!-- Google Play -->
+        <a href="#" class="store-badge">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3.61 1.814L13.793 12 3.61 22.186C3.236 21.94 3 21.52 3 21.038V2.962C3 2.48 3.236 2.06 3.61 1.814Z" fill="#0a0a0a"/>
+            <path d="M14.5 12.707L5.31 21.9L16.68 15.35L14.5 12.707Z" fill="#0a0a0a" opacity="0.8"/>
+            <path d="M20.16 10.81L17.6 9.34L15.21 12L17.6 14.66L20.16 13.19C20.71 12.87 21.05 12.46 21.05 12C21.05 11.54 20.71 11.13 20.16 10.81Z" fill="#0a0a0a"/>
+            <path d="M5.31 2.1L14.5 11.293L16.68 8.65L5.31 2.1Z" fill="#0a0a0a" opacity="0.8"/>
+          </svg>
+          <div class="store-badge-text">
+            <small>Get it on</small>
+            Google Play
+          </div>
+        </a>
+      </div>
+
+      <!-- Phone Mockup -->
+      <div class="hero-visual fade-up fade-up-d4">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-hugo">&#x1F99B;</div>
+            <div class="phone-id-label">Species Identified</div>
+            <div class="phone-species">White-tailed Deer</div>
+            <div class="phone-conf">98.7% match</div>
+            <div class="phone-tag-btn">Slingshot Tag!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── How It Works ── -->
+  <section id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">How It Works</div>
+        <h2 class="section-title">Three steps. Real wildlife.</h2>
+        <p class="section-desc">No lures, no bait, no fictional creatures. Just you, your phone, and the actual living world around you.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <span class="step-number">01</span>
+          <span class="step-icon">&#x1F4F7;</span>
+          <h3>Scan</h3>
+          <p>Point your camera at any plant, animal, insect, or fungus. Our AI identifies the species in seconds.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">02</span>
+          <span class="step-icon">&#x1F3AF;</span>
+          <h3>Tag</h3>
+          <p>Play the slingshot minigame to capture and tag the species. Nail the perfect shot for bonus XP and rare variants.</p>
+        </div>
+        <div class="step">
+          <span class="step-number">03</span>
+          <span class="step-icon">&#x1F4D6;</span>
+          <h3>Collect</h3>
+          <p>Build your field journal. Track every species you encounter, earn mastery badges, and climb the leaderboards.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── Features ── -->
+  <section id="features">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Features</div>
+        <h2 class="section-title">Everything you need to explore.</h2>
+        <p class="section-desc">Built for nature-curious people who want to learn what lives around them, not just scroll past it.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="feature-icon">&#x1F9E0;</span>
+          <h3>AI Species ID</h3>
+          <p>Powered by computer vision trained on millions of species observations. Identifies plants, animals, insects, fungi, and more.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">&#x1F5FA;&#xFE0F;</span>
+          <h3>Explore Map</h3>
+          <p>See what species have been spotted nearby. Discover biodiversity hotspots, track seasonal migrations, and find new areas to explore.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">&#x1F451;</span>
+          <h3>Royal Variants</h3>
+          <p>Rare, golden-bordered species cards that appear at random. Collect them all and show off in the community leaderboards.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">&#x1F4C6;</span>
+          <h3>Daily Challenges</h3>
+          <p>New missions every day. Find a specific species, tag three insects before noon, or explore a biome you have never visited.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">&#x1F393;</span>
+          <h3>Species Mastery</h3>
+          <p>Train on species you have tagged. Study their habitats, behaviors, and conservation status to earn mastery ranks.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">&#x1F91D;</span>
+          <h3>Friends &amp; Leagues</h3>
+          <p>Add friends, compare field journals, join regional leagues, and compete on weekly leaderboards. Explore together or go head-to-head.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── Verdant Pledge ── -->
+  <section class="pledge" id="pledge">
+    <div class="container">
+      <div class="pledge-card">
+        <div class="pledge-text">
+          <span class="pledge-icon">&#x1F331;</span>
+          <h2>The Verdant Pledge</h2>
+          <p>Every species you tag contributes to a living map of biodiversity. This data helps researchers track how ecosystems shift under climate change, in real time, at a resolution never before possible.</p>
+          <p>When the community hits conservation milestones, we donate directly to partner organizations working to protect the habitats your data helps document. Your tags have real impact.</p>
+        </div>
+        <div class="pledge-stats">
+          <div class="pledge-stat">
+            <div class="pledge-stat-value">Community Tags</div>
+            <div class="pledge-stat-label">Every observation strengthens the biodiversity dataset shared with researchers and conservation groups worldwide.</div>
+          </div>
+          <div class="pledge-stat">
+            <div class="pledge-stat-value">Milestone Donations</div>
+            <div class="pledge-stat-label">At every community milestone, funds go directly to conservation organizations protecting critical habitats.</div>
+          </div>
+          <div class="pledge-stat">
+            <div class="pledge-stat-value">Open Science</div>
+            <div class="pledge-stat-label">Aggregated, anonymized species data is shared freely with climate researchers tracking biodiversity shifts.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── Classroom ── -->
+  <section class="classroom">
+    <div class="container">
+      <div class="classroom-card">
+        <span class="classroom-icon">&#x1F3EB;</span>
+        <h2>Classroom Mode</h2>
+        <p>Teachers can create private groups, assign species-hunting missions, and track student progress. Turn any outdoor lesson into a biodiversity field trip. Free for educators.</p>
+        <a href="#" class="classroom-btn">Learn more about Classroom Mode &#x2192;</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── Email Signup ── -->
+  <section class="signup">
+    <div class="container">
+      <h2>Stay in the wild loop.</h2>
+      <p>Get updates on new features, conservation milestones, and seasonal challenges.</p>
+      <form class="signup-form" action="#">
+        <input type="email" placeholder="you@email.com" aria-label="Email address" required>
+        <button type="submit">Subscribe</button>
+      </form>
+      <p class="signup-note">No spam. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo">wilder<span>tag</span></span>
+          <span class="footer-copy">&copy; 2026 Wildertag. All rights reserved.</span>
+        </div>
+        <div class="footer-links">
+          <a href="/privacy-policy.html">Privacy Policy</a>
+          <a href="/terms-of-service.html">Terms of Service</a>
+          <a href="mailto:hello@wildertag.com">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
