@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wildertag — Turn the wildlife you find into music</title>
+  <meta name="description" content="Spot wildlife, identify it by sight or sound, then remix its real call into music. A playful field journal for curious explorers." />
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:title" content="Wildertag — Turn the wildlife you find into music" />
+  <meta property="og:description" content="Spot it. Hear it. Remix it. The wildlife app where every creature becomes a beat." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://wildertag.com" />
+  <!-- TODO: add a 1200x630 share image at /og.png -->
+  <meta property="og:image" content="https://wildertag.com/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    :root {
+      --green: #22c55e;
+      --green-2: #16a34a;
+      --emerald: #34d399;
+      --bg: #0a0a0a;
+      --bg-2: #102a1a;
+      --ink: #f8fafc;
+      --muted: #94a3b8;
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .accent { color: var(--green); }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(10,10,10,0.7);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px; letter-spacing: -0.02em; }
+    .logo .mark { font-size: 26px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--green); color: #04120a; font-weight: 700;
+      padding: 11px 20px; border-radius: 999px; font-size: 15px;
+      transition: transform .15s ease, background .15s ease;
+    }
+    .btn:hover { transform: translateY(-1px); background: var(--emerald); }
+    .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--border); }
+
+    /* Hero */
+    .hero { position: relative; padding: 96px 0 80px; text-align: center; overflow: hidden; }
+    .hero::before {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background:
+        radial-gradient(900px 500px at 50% -10%, rgba(34,197,94,0.18), transparent 60%),
+        linear-gradient(180deg, var(--bg-2), var(--bg) 70%);
+    }
+    .eyebrow {
+      display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--emerald);
+      border: 1px solid rgba(52,211,153,0.3); border-radius: 999px;
+      padding: 6px 14px; margin-bottom: 24px;
+    }
+    h1 { font-size: clamp(40px, 7vw, 76px); line-height: 1.02; letter-spacing: -0.03em; font-weight: 900; }
+    h1 .grad {
+      background: linear-gradient(120deg, var(--green), var(--emerald) 60%, #a7f3d0);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .sub { max-width: 640px; margin: 24px auto 0; font-size: clamp(17px, 2.4vw, 21px); color: var(--muted); }
+    .cta-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
+
+    /* Phone mock */
+    .phone {
+      width: 270px; height: 540px; margin: 64px auto 0; border-radius: 40px;
+      background: linear-gradient(160deg, #1a1a2e, #0a0a0a);
+      border: 8px solid #1f2937; box-shadow: 0 40px 120px rgba(34,197,94,0.18), 0 10px 40px rgba(0,0,0,0.6);
+      position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .phone .screen { text-align: center; padding: 24px; }
+    .phone .screen .big { font-size: 64px; }
+    .phone .screen .cap { color: var(--muted); margin-top: 12px; font-size: 14px; }
+    .phone .bars { display: flex; gap: 5px; justify-content: center; align-items: flex-end; height: 70px; margin-top: 18px; }
+    .phone .bars span { width: 8px; background: linear-gradient(180deg, var(--green), #fff8); border-radius: 4px; animation: eq 1s ease-in-out infinite; }
+    .phone .bars span:nth-child(2){ animation-delay:.1s } .phone .bars span:nth-child(3){ animation-delay:.2s }
+    .phone .bars span:nth-child(4){ animation-delay:.3s } .phone .bars span:nth-child(5){ animation-delay:.15s }
+    .phone .bars span:nth-child(6){ animation-delay:.25s } .phone .bars span:nth-child(7){ animation-delay:.05s }
+    @keyframes eq { 0%,100%{ height: 18px } 50%{ height: 62px } }
+
+    /* Sections */
+    section { padding: 80px 0; }
+    .section-title { text-align: center; font-size: clamp(28px, 4vw, 42px); font-weight: 800; letter-spacing: -0.02em; }
+    .section-sub { text-align: center; color: var(--muted); max-width: 600px; margin: 14px auto 0; }
+
+    /* Steps */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 52px; }
+    .step { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 28px; }
+    .step .n { font-size: 13px; font-weight: 800; color: var(--emerald); letter-spacing: 0.1em; }
+    .step .ico { font-size: 40px; margin: 12px 0 14px; }
+    .step h3 { font-size: 20px; margin-bottom: 8px; }
+    .step p { color: var(--muted); font-size: 15px; }
+
+    /* Features */
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 52px; }
+    .feat { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 26px; }
+    .feat .ico { font-size: 32px; }
+    .feat h3 { font-size: 18px; margin: 14px 0 8px; }
+    .feat p { color: var(--muted); font-size: 14.5px; }
+
+    /* Educators band */
+    .band { background: linear-gradient(135deg, rgba(34,197,94,0.10), rgba(129,140,248,0.08)); border: 1px solid var(--border); border-radius: 28px; padding: 48px; text-align: center; margin: 0 24px; }
+    .band h2 { font-size: clamp(24px, 3.5vw, 36px); font-weight: 800; }
+    .band p { color: var(--muted); max-width: 620px; margin: 14px auto 24px; }
+
+    /* Final CTA */
+    .final { text-align: center; }
+    .final h2 { font-size: clamp(30px, 5vw, 52px); font-weight: 900; letter-spacing: -0.02em; }
+    .email { display: flex; gap: 10px; max-width: 440px; margin: 28px auto 0; flex-wrap: wrap; justify-content: center; }
+    .email input { flex: 1; min-width: 220px; background: var(--card); border: 1px solid var(--border); border-radius: 999px; padding: 13px 20px; color: var(--ink); font-size: 15px; outline: none; }
+    .email input:focus { border-color: var(--green); }
+
+    footer { border-top: 1px solid var(--border); padding: 40px 0; color: var(--muted); font-size: 14px; }
+    footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    footer a { color: var(--muted); margin-left: 18px; }
+    footer a:hover { color: var(--ink); }
+
+    @media (max-width: 760px) {
+      .steps, .features { grid-template-columns: 1fr; }
+      .band { padding: 32px 22px; }
+      section { padding: 56px 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="wrap">
+      <div class="logo"><span class="mark">🦛</span> Wildertag</div>
+      <a class="btn" href="#get">Get the app</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Spot it · Hear it · Remix it</span>
+      <h1>Turn the wildlife you find<br><span class="grad">into music.</span></h1>
+      <p class="sub">Wildertag identifies the animals and plants around you — by sight or sound — then lets you remix a bird's real call into a beat. A playful field journal for curious explorers.</p>
+      <div class="cta-row">
+        <!-- TODO: replace # with your real App Store URL -->
+        <a class="btn" href="#" id="ios-cta">Download on iOS</a>
+        <a class="btn ghost" href="https://play.google.com/store/apps/details?id=art.biteforest.wildertag">Get it on Android</a>
+      </div>
+
+      <div class="phone" aria-hidden="true">
+        <div class="screen">
+          <div class="big">🐦</div>
+          <div class="cap">Northern Cardinal — caught!</div>
+          <div class="bars">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="cap">now playing your jam…</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="wrap">
+      <h2 class="section-title">How it works</h2>
+      <p class="section-sub">Three taps from "what is that?" to a track you made.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="n">STEP 1</div>
+          <div class="ico">📸</div>
+          <h3>Spot &amp; identify</h3>
+          <p>Point your camera at a plant, bird, insect, mammal, or mushroom — or listen for a bird's song. AI identifies it instantly.</p>
+        </div>
+        <div class="step">
+          <div class="n">STEP 2</div>
+          <div class="ico">🎛️</div>
+          <h3>Remix its call</h3>
+          <p>Drop into the Field Studio and turn a real bird call into a loop. Layer a beat, add a melody, and make it yours.</p>
+        </div>
+        <div class="step">
+          <div class="n">STEP 3</div>
+          <div class="ico">✨</div>
+          <h3>Collect &amp; share</h3>
+          <p>Fill your field journal, level up, and share a video of your jam. Every find is a card worth showing off.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="wrap">
+      <h2 class="section-title">More than an ID app</h2>
+      <div class="features">
+        <div class="feat"><div class="ico">🔍</div><h3>Sight &amp; sound ID</h3><p>Identify wildlife from a photo or from a bird's call, powered by on-device-grade models.</p></div>
+        <div class="feat"><div class="ico">🎵</div><h3>Field Studio</h3><p>The only nature app that turns the creatures you find into music you can share.</p></div>
+        <div class="feat"><div class="ico">📔</div><h3>Living field journal</h3><p>Sort by taxonomy, track your sightings by month, and watch your lifelist grow.</p></div>
+        <div class="feat"><div class="ico">🎓</div><h3>Classrooms</h3><p>Teachers run Field Trip Quests — pin a real-world area and send students on a scavenger hunt.</p></div>
+        <div class="feat"><div class="ico">🦛</div><h3>Collect &amp; customize</h3><p>Earn XP, keep weekly streaks, and deck out your hippo with unlockable gear and colors.</p></div>
+        <div class="feat"><div class="ico">🌍</div><h3>Real science, protected</h3><p>Your finds carry accurate dates and locations — with automatic privacy for at-risk species.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATORS -->
+  <section>
+    <div class="band">
+      <h2>Built for classrooms &amp; nature programs</h2>
+      <p>Bring wildlife to life for your students. Create a class, share a join code, and set Field Trip Quests tied to real locations. Track everyone's progress on a live leaderboard.</p>
+      <!-- TODO: point to ambassadors@wildertag.com or a signup form -->
+      <a class="btn" href="mailto:ambassadors@wildertag.com?subject=Wildertag%20for%20my%20classroom">Bring Wildertag to your school</a>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section id="get" class="final">
+    <div class="wrap">
+      <h2>Go find something <span class="accent">wild.</span></h2>
+      <p class="section-sub">Free to download. The outdoors is waiting.</p>
+      <div class="cta-row" style="margin-top:28px;">
+        <a class="btn" href="#">Download on iOS</a>
+        <a class="btn ghost" href="https://play.google.com/store/apps/details?id=art.biteforest.wildertag">Get it on Android</a>
+      </div>
+      <!-- Optional email capture — wire to your provider (Mailchimp/Buttondown/etc.) -->
+      <form class="email" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='Thanks! 🌱';">
+        <input type="email" placeholder="Email me when there's news" required />
+        <button class="btn" type="submit">Notify me</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="logo"><span class="mark">🦛</span> Wildertag</div>
+      <div>
+        <a href="#how">How it works</a>
+        <a href="#features">Features</a>
+        <!-- TODO: add privacy policy + support links -->
+        <a href="/privacy-policy.html">Privacy</a>
+        <a href="/terms-of-service.html">Terms</a>
+        <a href="mailto:hello@wildertag.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
