@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classroom Mode — Wildertag</title>
+  <meta name="description" content="Turn any outdoor lesson into a biodiversity field trip. Teachers create a class, students join with a code, and Field Trip Quests send them out to tag real species. Free for educators.">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wildertag.com/classroom">
+  <meta property="og:title" content="Classroom Mode — Wildertag">
+  <meta property="og:description" content="Turn any outdoor lesson into a biodiversity field trip. Create a class, assign Field Trip Quests, and track student progress. Free for educators.">
+  <meta property="og:site_name" content="Wildertag">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body {
+      background: #0a0a0a;
+      color: #a1a1aa;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4 { color: #fafafa; font-weight: 700; letter-spacing: -0.02em; }
+    a { color: #22c55e; text-decoration: none; transition: opacity 0.2s; }
+    a:hover { opacity: 0.8; }
+
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
+    section { padding: 5rem 0; }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(10,10,10,0.8); backdrop-filter: blur(12px);
+      border-bottom: 1px solid #1f1f23;
+    }
+    nav .container { display: flex; align-items: center; justify-content: space-between; height: 64px; padding-top: 0; padding-bottom: 0; }
+    .nav-logo { font-size: 1.25rem; font-weight: 800; color: #fafafa; letter-spacing: -0.03em; }
+    .nav-logo span { color: #22c55e; }
+    .nav-cta {
+      background: #22c55e; color: #0a0a0a; font-weight: 700;
+      padding: 0.5rem 1.1rem; border-radius: 999px;
+    }
+    .nav-cta:hover { opacity: 0.9; }
+
+    /* Hero */
+    .hero { padding: 5rem 0 3rem; text-align: center; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3);
+      color: #22c55e; font-size: 0.8rem; font-weight: 600;
+      padding: 0.4rem 0.9rem; border-radius: 999px; margin-bottom: 1.5rem;
+    }
+    .hero h1 { font-size: clamp(2.4rem, 6vw, 4rem); line-height: 1.05; margin-bottom: 1.25rem; }
+    .hero h1 .accent { color: #22c55e; }
+    .hero-sub { max-width: 640px; margin: 0 auto 2rem; font-size: 1.15rem; color: #a1a1aa; }
+
+    .btn-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: #22c55e; color: #0a0a0a; font-weight: 700;
+      padding: 0.85rem 1.75rem; border-radius: 999px; font-size: 1rem;
+    }
+    .btn-ghost {
+      background: #18181b; color: #fafafa; font-weight: 600;
+      padding: 0.85rem 1.75rem; border-radius: 999px; border: 1px solid #27272a;
+    }
+
+    /* Section heading */
+    .section-head { text-align: center; max-width: 680px; margin: 0 auto 3rem; }
+    .section-head h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.75rem; }
+    .section-head p { font-size: 1.05rem; }
+
+    /* Steps */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+    .step {
+      background: #111113; border: 1px solid #1f1f23; border-radius: 18px; padding: 1.75rem;
+    }
+    .step-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px; border-radius: 12px;
+      background: rgba(34,197,94,0.12); color: #22c55e; font-weight: 800; font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+    .step h3 { font-size: 1.15rem; margin-bottom: 0.4rem; }
+    .step p { font-size: 0.95rem; }
+
+    /* Feature cards */
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; }
+    .feature-card {
+      background: #111113; border: 1px solid #1f1f23; border-radius: 18px; padding: 1.75rem;
+    }
+    .feature-icon { font-size: 2rem; display: block; margin-bottom: 0.85rem; }
+    .feature-card h3 { font-size: 1.15rem; margin-bottom: 0.4rem; }
+    .feature-card p { font-size: 0.95rem; }
+
+    /* Roles split */
+    .roles { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+    .role {
+      border-radius: 20px; padding: 2rem;
+      border: 1px solid #1f1f23; background: #111113;
+    }
+    .role.teacher { border-color: rgba(34,197,94,0.35); background: linear-gradient(180deg, rgba(34,197,94,0.06), #111113); }
+    .role h3 { font-size: 1.35rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+    .role ul { list-style: none; }
+    .role li { padding: 0.5rem 0 0.5rem 1.75rem; position: relative; color: #d4d4d8; font-size: 0.97rem; }
+    .role li::before { content: "\2713"; position: absolute; left: 0; color: #22c55e; font-weight: 800; }
+
+    /* Safety band */
+    .safety {
+      background: #0d0d0f; border: 1px solid #1f1f23; border-radius: 20px;
+      padding: 2.25rem; text-align: center; max-width: 760px; margin: 0 auto;
+    }
+    .safety .feature-icon { margin-bottom: 0.5rem; }
+    .safety h2 { font-size: 1.6rem; margin-bottom: 0.6rem; }
+
+    /* CTA */
+    .cta { text-align: center; }
+    .cta h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 0.75rem; }
+    .cta p { margin-bottom: 1.75rem; }
+    .cta-note { font-size: 0.85rem; color: #71717a; margin-top: 1rem; }
+
+    hr.divider { border: none; border-top: 1px solid #1f1f23; margin: 0 auto; max-width: 1120px; }
+
+    /* Footer */
+    footer { padding: 3rem 0; border-top: 1px solid #1f1f23; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-logo { font-weight: 800; color: #fafafa; }
+    .footer-logo span { color: #22c55e; }
+    .footer-copy { display: block; font-size: 0.8rem; color: #71717a; margin-top: 0.25rem; }
+    .footer-links { display: flex; gap: 1.25rem; font-size: 0.9rem; }
+    .footer-links a { color: #a1a1aa; }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="container">
+      <a href="/" class="nav-logo">wilder<span>tag</span></a>
+      <a href="/#download" class="nav-cta">Download</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">&#x1F3EB; Free for educators</div>
+      <h1>Outdoor lessons,<br><span class="accent">gamified.</span></h1>
+      <p class="hero-sub">
+        Classroom Mode turns Wildertag into a guided biodiversity field trip. Create a private class,
+        send students on species-hunting <strong>Field Trip Quests</strong>, and watch their discoveries
+        roll in &mdash; all while they learn real ecology outside.
+      </p>
+      <div class="btn-row">
+        <a href="/#download" class="btn-primary">Get the app</a>
+        <a href="#how" class="btn-ghost">See how it works</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how">
+    <div class="container">
+      <div class="section-head">
+        <h2>Up and running in minutes</h2>
+        <p>No accounts to manage, no hardware to buy. If your students have phones, you have a field lab.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <h3>Create a class</h3>
+          <p>Open Classroom Mode in the app and start a class. You get a short join code to share with your students.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <h3>Students join</h3>
+          <p>Students enter the code to join. No emails required &mdash; they&rsquo;re in the group instantly.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <h3>Assign a Field Trip Quest</h3>
+          <p>Pick target species (with smart suggestions for your area), set how many to find, and optionally lock it to a park or trail by dropping a map pin.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">4</span>
+          <h3>Watch progress live</h3>
+          <p>See each student&rsquo;s tagged species and incidental finds roll in as they explore &mdash; for you and the whole class.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- Field Trip Quests features -->
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <h2>Field Trip Quests</h2>
+        <p>Missions you design to match your lesson &mdash; a pond study, a schoolyard bird count, a fungi forage after the rain.</p>
+      </div>
+      <div class="features">
+        <div class="feature-card">
+          <span class="feature-icon">&#x1F3AF;</span>
+          <h3>Target species</h3>
+          <p>Choose the exact species you want students to find, with auto-suggestions drawn from what actually lives in your region.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">&#x1F4CD;</span>
+          <h3>Region lock</h3>
+          <p>Drop a pin on a park, trail, or campus and set a radius. Quests can require finds inside that boundary &mdash; perfect for a specific field-trip site.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">&#x1F4CA;</span>
+          <h3>Live progress</h3>
+          <p>Track target catches and incidental discoveries per student, visible to you and classmates to spark friendly momentum.</p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">&#x1F9E0;</span>
+          <h3>Real science</h3>
+          <p>Every tag is a real, AI-identified observation with species, location, and conservation context &mdash; turning play into genuine ecology.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- Roles -->
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <h2>Built for the whole class</h2>
+      </div>
+      <div class="roles">
+        <div class="role teacher">
+          <h3>&#x1F468;&#x200D;&#x1F3EB; For teachers</h3>
+          <ul>
+            <li>Create private classes with a simple join code</li>
+            <li>Design Field Trip Quests around your lesson</li>
+            <li>Suggest species native to your exact area</li>
+            <li>Lock quests to a real-world site with a map pin</li>
+            <li>Track every student&rsquo;s progress in real time</li>
+            <li>Free for educators</li>
+          </ul>
+        </div>
+        <div class="role">
+          <h3>&#x1F9D2; For students</h3>
+          <ul>
+            <li>Join a class in seconds with a code</li>
+            <li>Head outside and tag real wildlife</li>
+            <li>Earn Species Mastery and learn as they go</li>
+            <li>See the quest&rsquo;s progress alongside classmates</li>
+            <li>Build a personal field journal that&rsquo;s theirs to keep</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- Safety -->
+  <section>
+    <div class="container">
+      <div class="safety">
+        <span class="feature-icon">&#x1F6E1;&#xFE0F;</span>
+        <h2>Safe by design</h2>
+        <p>
+          Classes are private and code-gated. Students don&rsquo;t need to share personal details to join,
+          and sensitive species locations are automatically obscured to protect wildlife. Questions about
+          a school rollout? Email <a href="mailto:hello@wildertag.com">hello@wildertag.com</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="container">
+      <h2>Take your class outside.</h2>
+      <p>Download Wildertag and open Classroom Mode to create your first field trip.</p>
+      <div class="btn-row">
+        <a href="/#download" class="btn-primary">Get Wildertag free</a>
+        <a href="/" class="btn-ghost">Back to home</a>
+      </div>
+      <p class="cta-note">Free on iOS &amp; Android · Free for educators</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo">wilder<span>tag</span></span>
+          <span class="footer-copy">&copy; 2026 Wildertag. All rights reserved.</span>
+        </div>
+        <div class="footer-links">
+          <a href="/">Home</a>
+          <a href="/privacy-policy.html">Privacy Policy</a>
+          <a href="/terms-of-service.html">Terms of Service</a>
+          <a href="mailto:hello@wildertag.com">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
