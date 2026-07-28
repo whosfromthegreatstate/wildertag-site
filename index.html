@@ -13,6 +13,7 @@
   <meta property="og:description" content="AI species identification meets slingshot capture game. Build your field journal, track local biodiversity, and help real climate science.">
   <meta property="og:site_name" content="Wildertag">
   <meta property="og:locale" content="en_US">
+  <meta property="og:image" content="https://wildertag.com/img/gallery/hoary-marmot.jpg">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
@@ -27,6 +28,7 @@
       scroll-behavior: smooth;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
     }
 
     body {
@@ -249,69 +251,12 @@
       animation: pulse-glow 4s ease-in-out infinite;
     }
 
-    .phone-notch {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 28px;
-      background: #0a0a0a;
-      border-radius: 0 0 16px 16px;
-    }
-
-    .phone-screen {
-      padding: 44px 20px 20px;
+    .phone-shot {
+      display: block;
+      width: 100%;
       height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .phone-hugo {
-      font-size: 4rem;
-      margin-bottom: 0.75rem;
-      image-rendering: pixelated;
-      line-height: 1;
-    }
-
-    .phone-id-label {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #22c55e;
-      margin-bottom: 0.25rem;
-    }
-
-    .phone-species {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #fafafa;
-      margin-bottom: 0.5rem;
-    }
-
-    .phone-conf {
-      display: inline-block;
-      background: rgba(34, 197, 94, 0.15);
-      color: #22c55e;
-      padding: 0.2rem 0.6rem;
-      border-radius: 6px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-
-    .phone-tag-btn {
-      background: #22c55e;
-      color: #0a0a0a;
-      border: none;
-      padding: 0.6rem 1.5rem;
-      border-radius: 9999px;
-      font-weight: 700;
-      font-size: 0.8rem;
-      letter-spacing: 0.02em;
+      object-fit: cover;
+      object-position: top;
     }
 
     /* ── Section Headers ── */
@@ -588,6 +533,7 @@
       text-align: center;
       padding: 6rem 0;
       position: relative;
+      overflow: hidden;
     }
 
     .signup::before {
@@ -710,6 +656,94 @@
 
     .footer-links a:hover { color: #fafafa; opacity: 1; }
 
+    /* ── Field Gallery ── */
+    .gallery-grid {
+      columns: 3;
+      column-gap: 1.25rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      display: block;
+      margin: 0 0 1.25rem;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+      break-inside: avoid;
+    }
+
+    .gallery-item img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .gallery-caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 2rem 1rem 0.85rem;
+      background: linear-gradient(180deg, transparent 0%, rgba(10,10,10,0.85) 100%);
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .gallery-species {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fafafa;
+      letter-spacing: -0.01em;
+    }
+
+    .gallery-kind {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #22c55e;
+      white-space: nowrap;
+    }
+
+    /* ── Soundscape band ── */
+    .soundscape-card {
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      padding: 3.5rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .soundscape-phone {
+      width: 240px;
+      height: 465px;
+      border-radius: 32px;
+      border: 3px solid rgba(255,255,255,0.1);
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      margin: 0 auto;
+    }
+
+    .soundscape-text h2 {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+
+    .soundscape-text p {
+      color: #a1a1aa;
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .soundscape-text p:last-child { margin-bottom: 0; }
+
     /* ── Responsive ── */
     @media (max-width: 900px) {
       .features-grid {
@@ -719,6 +753,14 @@
       .pledge-card {
         grid-template-columns: 1fr;
         padding: 2.5rem;
+      }
+
+      .gallery-grid { columns: 2; }
+
+      .soundscape-card {
+        grid-template-columns: 1fr;
+        padding: 2.5rem;
+        text-align: center;
       }
     }
 
@@ -746,6 +788,18 @@
       .pledge-card { padding: 2rem; }
 
       .classroom-card { padding: 2rem; }
+
+      .gallery-grid { column-gap: 0.75rem; }
+
+      .gallery-item { margin-bottom: 0.75rem; border-radius: 12px; }
+
+      .gallery-caption { padding: 1.5rem 0.7rem 0.6rem; }
+
+      .gallery-species { font-size: 0.8rem; }
+
+      .gallery-kind { display: none; }
+
+      .soundscape-card { padding: 2rem; }
 
       .signup-form {
         flex-direction: column;
@@ -813,17 +867,10 @@
         </a>
       </div>
 
-      <!-- Phone Mockup -->
+      <!-- Phone: real Field Journal screenshot -->
       <div class="hero-visual fade-up fade-up-d4">
         <div class="phone-frame">
-          <div class="phone-notch"></div>
-          <div class="phone-screen">
-            <div class="phone-hugo">&#x1F99B;</div>
-            <div class="phone-id-label">Species Identified</div>
-            <div class="phone-species">White-tailed Deer</div>
-            <div class="phone-conf">98.7% match</div>
-            <div class="phone-tag-btn">Slingshot Tag!</div>
-          </div>
+          <img class="phone-shot" src="/img/app-field-journal.jpg" alt="Wildertag field journal showing tagged species: wood ant, bigleaf maple, spotted towhee, Steller's jay" width="640" height="1240">
         </div>
       </div>
     </div>
@@ -858,6 +905,25 @@
           <span class="step-icon">&#x1F4D6;</span>
           <h3>Collect</h3>
           <p>Build your field journal. Track every species you encounter, earn mastery badges, and climb the leaderboards.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── Soundscapes ── -->
+  <section id="soundscapes">
+    <div class="container">
+      <div class="soundscape-card">
+        <div class="soundscape-phone">
+          <img class="phone-shot" src="/img/app-soundscape.jpg" alt="Wildertag soundscape recording identifying Swainson's thrush, Steller's jay, and spotted towhee by their calls" width="640" height="1240">
+        </div>
+        <div class="soundscape-text">
+          <div class="section-label">Soundscapes</div>
+          <h2>Some wildlife you hear before you see.</h2>
+          <p>Tap record and Wildertag listens with you. Bird songs get identified as they happen, so that rustle in the canopy finally gets a name.</p>
+          <p>Every soundscape you save lands in your field journal next to your photos, with each species you heard and how many times you've heard it before.</p>
         </div>
       </div>
     </div>
@@ -905,6 +971,54 @@
           <h3>Friends &amp; Leagues</h3>
           <p>Add friends, compare field journals, join regional leagues, and compete on weekly leaderboards. Explore together or go head-to-head.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ── Field Gallery ── -->
+  <section id="gallery">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Field Gallery</div>
+        <h2 class="section-title">Tagged in the wild.</h2>
+        <p class="section-desc">Real photos from real outings. Every one of these was found on an ordinary walk and logged in a field journal.</p>
+      </div>
+
+      <div class="gallery-grid">
+        <figure class="gallery-item">
+          <img src="/img/gallery/black-bear.jpg" alt="Black bear standing on a mossy lawn near a garden shed" width="1400" height="787" loading="lazy">
+          <figcaption class="gallery-caption"><span class="gallery-species">Black Bear</span><span class="gallery-kind">Mammal</span></figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="/img/gallery/key-deer.jpg" alt="Key deer standing at the edge of dense green foliage" width="825" height="1100" loading="lazy">
+          <figcaption class="gallery-caption"><span class="gallery-species">Key Deer</span><span class="gallery-kind">Mammal</span></figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="/img/gallery/coral-fungus.jpg" alt="Bright orange coral fungus growing from the forest floor" width="1400" height="680" loading="lazy">
+          <figcaption class="gallery-caption"><span class="gallery-species">Coral Fungus</span><span class="gallery-kind">Fungi</span></figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="/img/gallery/green-anemone.jpg" alt="Giant green anemone in a tide pool" width="788" height="1400" loading="lazy">
+          <figcaption class="gallery-caption"><span class="gallery-species">Giant Green Anemone</span><span class="gallery-kind">Tidepool</span></figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="/img/gallery/hoary-marmot.jpg" alt="Hoary marmot resting on a boulder above a forested valley" width="1400" height="787" loading="lazy">
+          <figcaption class="gallery-caption"><span class="gallery-species">Hoary Marmot</span><span class="gallery-kind">Mammal</span></figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="/img/gallery/trillium.jpg" alt="White trillium flower blooming among green leaves" width="1400" height="788" loading="lazy">
+          <figcaption class="gallery-caption"><span class="gallery-species">Trillium</span><span class="gallery-kind">Plant</span></figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="/img/gallery/ochre-sea-stars.jpg" alt="Purple ochre sea stars clustered on barnacled rocks at low tide" width="1400" height="788" loading="lazy">
+          <figcaption class="gallery-caption"><span class="gallery-species">Ochre Sea Stars</span><span class="gallery-kind">Tidepool</span></figcaption>
+        </figure>
+        <figure class="gallery-item">
+          <img src="/img/gallery/banana-slug.jpg" alt="Banana slug crawling up a decaying log beside sword ferns" width="676" height="1200" loading="lazy">
+          <figcaption class="gallery-caption"><span class="gallery-species">Banana Slug</span><span class="gallery-kind">Invertebrate</span></figcaption>
+        </figure>
       </div>
     </div>
   </section>
