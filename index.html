@@ -70,6 +70,11 @@
       padding: 6rem 0;
     }
 
+    /* Anchor targets clear the fixed nav when scrolled to */
+    section[id], #download {
+      scroll-margin-top: 5.5rem;
+    }
+
     /* ── Animations ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
@@ -1162,7 +1167,7 @@
         <div class="footer-links">
           <a href="/privacy-policy.html">Privacy Policy</a>
           <a href="/terms-of-service.html">Terms of Service</a>
-          <a href="mailto:hello@wildertag.com">Contact &#x1F99B;</a>
+          <a href="mailto:hello@wildertag.com">&#x1F99B; Contact</a>
         </div>
       </div>
     </div>
