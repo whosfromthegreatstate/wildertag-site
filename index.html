@@ -20,7 +20,21 @@
   <meta name="twitter:title" content="Wildertag — Find Real Wildlife">
   <meta name="twitter:description" content="The wildlife photography & bird call app. Photo and Audio species ID, capture minigames and more. Build your field journal, track local biodiversity, and help real climate science.">
 
+  <!-- Fonts: Bricolage Grotesque (display) + IBM Plex Mono (field labels) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
   <style>
+    /* ── Tokens ── */
+    :root {
+      --accent: #22c55e;          /* brand green */
+      --accent-strong: #16a34a;   /* hover / pressed */
+      --accent-rgb: 34, 197, 94;  /* for rgba() glows and borders */
+      --font-display: "Bricolage Grotesque", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
     /* ── Reset & Base ── */
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -40,9 +54,9 @@
     }
 
     /* ── Typography ── */
-    h1, h2, h3, h4 { color: #fafafa; font-weight: 700; letter-spacing: -0.02em; }
+    h1, h2, h3, h4 { color: #fafafa; font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; }
 
-    a { color: #22c55e; text-decoration: none; transition: opacity 0.2s; }
+    a { color: var(--accent); text-decoration: none; transition: opacity 0.2s; }
     a:hover { opacity: 0.8; }
 
     /* ── Layout ── */
@@ -68,8 +82,8 @@
     }
 
     @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.15); }
-      50%      { box-shadow: 0 0 40px rgba(34, 197, 94, 0.3); }
+      0%, 100% { box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.15); }
+      50%      { box-shadow: 0 0 40px rgba(var(--accent-rgb), 0.3); }
     }
 
     @keyframes grain-drift {
@@ -108,13 +122,14 @@
     }
 
     .nav-logo {
+      font-family: var(--font-display);
       font-size: 1.25rem;
       font-weight: 800;
       color: #fafafa;
       letter-spacing: -0.03em;
     }
 
-    .nav-logo span { color: #22c55e; }
+    .nav-logo span { color: var(--accent); }
 
     .nav-links { display: flex; gap: 2rem; align-items: center; }
 
@@ -131,7 +146,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: #22c55e;
+      background: var(--accent);
       color: #0a0a0a !important;
       padding: 0.5rem 1.25rem;
       border-radius: 9999px;
@@ -140,7 +155,7 @@
       transition: background 0.2s, transform 0.2s;
     }
 
-    .nav-cta:hover { background: #16a34a; opacity: 1; transform: translateY(-1px); }
+    .nav-cta:hover { background: var(--accent-strong); opacity: 1; transform: translateY(-1px); }
 
     /* ── Hero ── */
     .hero {
@@ -148,6 +163,39 @@
       text-align: center;
       position: relative;
       overflow: hidden;
+    }
+
+    /* Real field photo behind the hero, fading down into the black UI */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 28%;
+    }
+
+    .hero-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg,
+          rgba(10, 10, 10, 0.72) 0%,
+          rgba(10, 10, 10, 0.6) 26%,
+          rgba(10, 10, 10, 0.78) 48%,
+          rgba(10, 10, 10, 0.96) 68%,
+          #0a0a0a 82%),
+        radial-gradient(ellipse 120% 80% at 50% 0%, transparent 40%, rgba(10, 10, 10, 0.55) 100%);
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
     }
 
     .hero::before {
@@ -158,7 +206,7 @@
       transform: translateX(-50%);
       width: 800px;
       height: 800px;
-      background: radial-gradient(circle, rgba(34, 197, 94, 0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(var(--accent-rgb), 0.08) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -166,12 +214,13 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: rgba(34, 197, 94, 0.1);
-      border: 1px solid rgba(34, 197, 94, 0.2);
-      color: #22c55e;
+      background: rgba(var(--accent-rgb), 0.1);
+      border: 1px solid rgba(var(--accent-rgb), 0.2);
+      color: var(--accent);
       padding: 0.4rem 1rem;
       border-radius: 9999px;
-      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -180,19 +229,21 @@
 
     .hero h1 {
       font-size: clamp(3rem, 8vw, 5.5rem);
-      line-height: 1.05;
-      letter-spacing: -0.04em;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
       margin-bottom: 1.5rem;
+      text-shadow: 0 2px 24px rgba(10, 10, 10, 0.7);
     }
 
-    .hero h1 .accent { color: #22c55e; }
+    .hero h1 .accent { color: var(--accent); }
 
     .hero-sub {
       font-size: clamp(1.1rem, 2.5vw, 1.35rem);
-      color: #71717a;
+      color: #c8cdd2;
       max-width: 620px;
       margin: 0 auto 3rem;
       line-height: 1.7;
+      text-shadow: 0 1px 12px rgba(10, 10, 10, 0.8);
     }
 
     .hero-actions {
@@ -262,11 +313,12 @@
     /* ── Section Headers ── */
     .section-label {
       display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 700;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: #22c55e;
+      letter-spacing: 0.12em;
+      color: var(--accent);
       margin-bottom: 1rem;
     }
 
@@ -318,25 +370,29 @@
     }
 
     .step:hover {
-      border-color: rgba(34, 197, 94, 0.3);
-      background: rgba(34, 197, 94, 0.03);
+      border-color: rgba(var(--accent-rgb), 0.3);
+      background: rgba(var(--accent-rgb), 0.03);
     }
 
     .step-number {
       position: absolute;
       top: 1.25rem;
       left: 1.25rem;
+      font-family: var(--font-mono);
       font-size: 0.7rem;
-      font-weight: 700;
-      color: rgba(34, 197, 94, 0.4);
+      font-weight: 600;
+      color: rgba(var(--accent-rgb), 0.4);
       letter-spacing: 0.05em;
     }
 
     .step-icon {
-      font-size: 2.5rem;
+      display: flex;
+      justify-content: center;
       margin-bottom: 1.25rem;
-      display: block;
+      color: var(--accent);
     }
+
+    .step-icon svg { width: 34px; height: 34px; }
 
     .step h3 {
       font-size: 1.2rem;
@@ -357,8 +413,8 @@
       right: -1.15rem;
       width: 0.3rem;
       height: 0.3rem;
-      border-right: 2px solid rgba(34, 197, 94, 0.3);
-      border-bottom: 2px solid rgba(34, 197, 94, 0.3);
+      border-right: 2px solid rgba(var(--accent-rgb), 0.3);
+      border-bottom: 2px solid rgba(var(--accent-rgb), 0.3);
       transform: translateY(-50%) rotate(-45deg);
     }
 
@@ -378,16 +434,18 @@
     }
 
     .feature-card:hover {
-      border-color: rgba(34, 197, 94, 0.25);
-      background: rgba(34, 197, 94, 0.03);
+      border-color: rgba(var(--accent-rgb), 0.25);
+      background: rgba(var(--accent-rgb), 0.03);
       transform: translateY(-2px);
     }
 
     .feature-icon {
-      font-size: 1.75rem;
+      display: flex;
       margin-bottom: 1rem;
-      display: block;
+      color: var(--accent);
     }
+
+    .feature-icon svg { width: 26px; height: 26px; }
 
     .feature-card h3 {
       font-size: 1.05rem;
@@ -409,8 +467,8 @@
     .pledge-card {
       position: relative;
       border-radius: 24px;
-      border: 1px solid rgba(34, 197, 94, 0.2);
-      background: linear-gradient(160deg, rgba(34, 197, 94, 0.06) 0%, rgba(10, 10, 10, 0.95) 60%);
+      border: 1px solid rgba(var(--accent-rgb), 0.2);
+      background: linear-gradient(160deg, rgba(var(--accent-rgb), 0.06) 0%, rgba(10, 10, 10, 0.95) 60%);
       padding: 4rem;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -425,15 +483,17 @@
       right: -20%;
       width: 400px;
       height: 400px;
-      background: radial-gradient(circle, rgba(34, 197, 94, 0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(var(--accent-rgb), 0.08) 0%, transparent 70%);
       pointer-events: none;
     }
 
     .pledge-icon {
-      font-size: 3rem;
+      display: flex;
       margin-bottom: 1.5rem;
-      display: block;
+      color: var(--accent);
     }
+
+    .pledge-icon svg { width: 38px; height: 38px; }
 
     .pledge h2 {
       font-size: clamp(1.75rem, 3vw, 2.25rem);
@@ -462,9 +522,10 @@
     }
 
     .pledge-stat-value {
+      font-family: var(--font-display);
       font-size: 1.5rem;
       font-weight: 800;
-      color: #22c55e;
+      color: var(--accent);
       margin-bottom: 0.25rem;
     }
 
@@ -488,10 +549,13 @@
     }
 
     .classroom-icon {
-      font-size: 3rem;
+      display: flex;
+      justify-content: center;
       margin-bottom: 1.5rem;
-      display: block;
+      color: var(--accent);
     }
+
+    .classroom-icon svg { width: 38px; height: 38px; }
 
     .classroom h2 {
       font-size: 1.75rem;
@@ -511,8 +575,8 @@
       align-items: center;
       gap: 0.5rem;
       background: transparent;
-      color: #22c55e;
-      border: 1px solid rgba(34, 197, 94, 0.4);
+      color: var(--accent);
+      border: 1px solid rgba(var(--accent-rgb), 0.4);
       padding: 0.75rem 1.75rem;
       border-radius: 9999px;
       font-size: 0.9rem;
@@ -523,8 +587,8 @@
     }
 
     .classroom-btn:hover {
-      background: rgba(34, 197, 94, 0.1);
-      border-color: #22c55e;
+      background: rgba(var(--accent-rgb), 0.1);
+      border-color: var(--accent);
       opacity: 1;
     }
 
@@ -544,7 +608,7 @@
       transform: translateX(-50%);
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(34, 197, 94, 0.06) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(var(--accent-rgb), 0.06) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -581,12 +645,12 @@
     }
 
     .signup-form input::placeholder { color: #52525b; }
-    .signup-form input:focus { border-color: rgba(34, 197, 94, 0.5); }
+    .signup-form input:focus { border-color: rgba(var(--accent-rgb), 0.5); }
 
     .signup-form button {
       padding: 0.85rem 1.75rem;
       border-radius: 12px;
-      background: #22c55e;
+      background: var(--accent);
       color: #0a0a0a;
       border: none;
       font-size: 0.95rem;
@@ -598,7 +662,7 @@
     }
 
     .signup-form button:hover {
-      background: #16a34a;
+      background: var(--accent-strong);
       transform: translateY(-1px);
     }
 
@@ -629,13 +693,14 @@
     }
 
     .footer-logo {
+      font-family: var(--font-display);
       font-size: 1.1rem;
       font-weight: 800;
       color: #fafafa;
       letter-spacing: -0.03em;
     }
 
-    .footer-logo span { color: #22c55e; }
+    .footer-logo span { color: var(--accent); }
 
     .footer-copy {
       font-size: 0.8rem;
@@ -699,11 +764,12 @@
     }
 
     .gallery-kind {
-      font-size: 0.65rem;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: #22c55e;
+      color: var(--accent);
       white-space: nowrap;
     }
 
@@ -831,6 +897,9 @@
 
   <!-- ── Hero ── -->
   <section class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <img src="/img/gallery/hoary-marmot.jpg" alt="" width="1400" height="787" fetchpriority="high">
+    </div>
     <div class="container">
       <div class="hero-badge fade-up">Now available on iOS &amp; Android</div>
       <h1 class="fade-up fade-up-d1">
@@ -890,19 +959,19 @@
       <div class="steps">
         <div class="step">
           <span class="step-number">01</span>
-          <span class="step-icon">&#x1F4F7;</span>
+          <span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2"/><path d="M16 4h2a2 2 0 0 1 2 2v2"/><path d="M20 16v2a2 2 0 0 1-2 2h-2"/><path d="M8 20H6a2 2 0 0 1-2-2v-2"/><circle cx="12" cy="12" r="3.5"/></svg></span>
           <h3>Scan</h3>
           <p>Point your camera at any plant, animal, insect, or fungus. Our AI identifies the species in seconds.</p>
         </div>
         <div class="step">
           <span class="step-number">02</span>
-          <span class="step-icon">&#x1F3AF;</span>
+          <span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></span>
           <h3>Tag</h3>
           <p>Win a quick minigame to capture and tag the species. You start with the slingshot, and new capture styles unlock as you play.</p>
         </div>
         <div class="step">
           <span class="step-number">03</span>
-          <span class="step-icon">&#x1F4D6;</span>
+          <span class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-1.8-1.4-4.2-2-7-2v14c2.8 0 5.2.6 7 2 1.8-1.4 4.2-2 7-2V4c-2.8 0-5.2.6-7 2z"/><path d="M12 6v14"/></svg></span>
           <h3>Collect</h3>
           <p>Build your field journal. Track every species you encounter, earn mastery badges, and climb the leaderboards.</p>
         </div>
@@ -942,32 +1011,32 @@
 
       <div class="features-grid">
         <div class="feature-card">
-          <span class="feature-icon">&#x1F9E0;</span>
+          <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/><path d="M18.8 15.5l.8 1.9 1.9.8-1.9.8-.8 1.9-.8-1.9-1.9-.8 1.9-.8.8-1.9z"/></svg></span>
           <h3>AI Species ID</h3>
           <p>Powered by computer vision trained on millions of species observations. Identifies plants, animals, insects, fungi, and more.</p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">&#x1F5FA;&#xFE0F;</span>
+          <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg></span>
           <h3>Explore Map</h3>
           <p>See what species have been spotted nearby. Discover biodiversity hotspots, track seasonal migrations, and find new areas to explore.</p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">&#x1F451;</span>
+          <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17L3 7l5 4 4-6 4 6 5-4-1 10H4z"/><path d="M5.5 21h13"/></svg></span>
           <h3>Royal Variants</h3>
           <p>Rare, golden-bordered species cards that appear at random. Collect them all and show off in the community leaderboards.</p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">&#x1F4C6;</span>
+          <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M8 3v4M16 3v4M3.5 10.5h17"/><path d="M9.5 15.5l2 2 3.5-3.5"/></svg></span>
           <h3>Daily Challenges</h3>
           <p>New missions every day. Find a specific species, tag three insects before noon, or explore a biome you have never visited.</p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">&#x1F393;</span>
+          <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 9.5L12 5l9.5 4.5L12 14 2.5 9.5z"/><path d="M6.5 11.5V16c0 1.5 2.4 3 5.5 3s5.5-1.5 5.5-3v-4.5"/><path d="M21.5 9.5v5"/></svg></span>
           <h3>Species Mastery</h3>
           <p>Train on species you have tagged. Study their habitats, behaviors, and conservation status to earn mastery ranks.</p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">&#x1F91D;</span>
+          <span class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3.5"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5"/><path d="M16 5.6a3.5 3.5 0 0 1 0 5.8"/><path d="M17.5 15.3c2.1.6 3.5 2.1 3.5 4.7"/></svg></span>
           <h3>Friends &amp; Leagues</h3>
           <p>Add friends, compare field journals, join regional leagues, and compete on weekly leaderboards. Explore together or go head-to-head.</p>
         </div>
@@ -1030,7 +1099,7 @@
     <div class="container">
       <div class="pledge-card">
         <div class="pledge-text">
-          <span class="pledge-icon">&#x1F331;</span>
+          <span class="pledge-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12C12 8.5 9.4 6.5 5.5 6.5c0 4 2.5 6 6.5 5.5z"/><path d="M12 11c0-3 2-5 6.5-5 0 3.8-2.5 5.7-6.5 5z"/></svg></span>
           <h2>The Verdant Pledge</h2>
           <p>Every species you tag contributes to a living map of biodiversity. This data helps researchers track how ecosystems shift under climate change, in real time, at a resolution never before possible.</p>
           <p>When the community hits conservation milestones, we donate directly to partner organizations working to protect the habitats your data helps document. Your tags have real impact.</p>
@@ -1059,7 +1128,7 @@
   <section class="classroom">
     <div class="container">
       <div class="classroom-card">
-        <span class="classroom-icon">&#x1F3EB;</span>
+        <span class="classroom-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V10.5L12 5l8 5.5V21"/><path d="M2.5 21h19"/><path d="M9.5 21v-5.5h5V21"/><circle cx="12" cy="11.5" r="1.6"/></svg></span>
         <h2>Classroom Mode</h2>
         <p>Teachers can create private groups, assign species-hunting missions, and track student progress. Turn any outdoor lesson into a biodiversity field trip. Free for educators.</p>
         <a href="/classroom" class="classroom-btn">Learn more about Classroom Mode &#x2192;</a>
